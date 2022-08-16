@@ -3174,6 +3174,18 @@ struct FormatStyle {
   /// \version 14
   SeparateDefinitionStyle SeparateDefinitionBlocks;
 
+  /// The number of empty lines to use when separating definition blocks.
+  /// Defaults to 1.
+  ///
+  /// This determines the number of empty lines to use when
+  /// SeparateDefinitionBlocks == SeparateDefinitionStyle::SDS_Always.
+  ///
+  /// Note: if MaxEmptyLinesToKeep < DefinitionBlockSpacing, then additional
+  /// lines will be removed. MaxEmptyLinesToKeep should be greater than or equal
+  /// to DefinitionBlockSpacing.
+  /// \version 15
+  unsigned DefinitionBlockSpacing;
+
   /// The maximal number of unwrapped lines that a short namespace spans.
   /// Defaults to 1.
   ///
@@ -3867,6 +3879,7 @@ struct FormatStyle {
                R.ConstructorInitializerIndentWidth &&
            ContinuationIndentWidth == R.ContinuationIndentWidth &&
            Cpp11BracedListStyle == R.Cpp11BracedListStyle &&
+           DefinitionBlockSpacing == R.DefinitionBlockSpacing &&
            DeriveLineEnding == R.DeriveLineEnding &&
            DerivePointerAlignment == R.DerivePointerAlignment &&
            DisableFormat == R.DisableFormat &&

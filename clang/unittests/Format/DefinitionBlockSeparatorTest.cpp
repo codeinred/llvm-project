@@ -573,6 +573,90 @@ TEST_F(DefinitionBlockSeparatorTest, JavaScript) {
                "}",
                Style);
 }
+
+TEST_F(DefinitionBlockSeparatorTest, DefinitionBlockSpacing) {
+  FormatStyle Style = getLLVMStyle();
+  Style.SeparateDefinitionBlocks = FormatStyle::SDS_Always;
+  Style.DefinitionBlockSpacing = 2;
+  /// This has to be set, otherwise the extra lines will be removed
+  Style.MaxEmptyLinesToKeep = 2;
+  verifyFormat("int foo(int i, int j) {\n"
+               "  int r = i + j;\n"
+               "  return r;\n"
+               "}\n"
+               "\n"
+               "\n"
+               "int bar(int j, int k) {\n"
+               "  int r = j + k;\n"
+               "  return r;\n"
+               "}",
+               Style);
+
+  verifyFormat("struct foo {\n"
+               "  int i, j;\n"
+               "};\n"
+               "\n"
+               "\n"
+               "struct bar {\n"
+               "  int j, k;\n"
+               "};",
+               Style);
+
+  verifyFormat("union foo {\n"
+               "  int i, j;\n"
+               "};\n"
+               "\n"
+               "\n"
+               "union bar {\n"
+               "  int j, k;\n"
+               "};",
+               Style);
+
+  verifyFormat("class foo {\n"
+               "  int i, j;\n"
+               "};\n"
+               "\n"
+               "\n"
+               "class bar {\n"
+               "  int j, k;\n"
+               "};",
+               Style);
+
+  verifyFormat("namespace foo {\n"
+               "int i, j;\n"
+               "}\n"
+               "\n"
+               "\n"
+               "namespace bar {\n"
+               "int j, k;\n"
+               "}",
+               Style);
+
+  verifyFormat("enum Foo { FOO, BAR };\n"
+               "\n"
+               "\n"
+               "enum Bar { FOOBAR, BARFOO };\n",
+               Style);
+
+  FormatStyle BreakAfterReturnTypeStyle = Style;
+  BreakAfterReturnTypeStyle.AlwaysBreakAfterReturnType = FormatStyle::RTBS_All;
+  // Test uppercased long typename
+  verifyFormat("class Foo {\n"
+               "  void\n"
+               "  Bar(int t, int p) {\n"
+               "    int r = t + p;\n"
+               "    return r;\n"
+               "  }\n"
+               "\n"
+               "\n"
+               "  HRESULT\n"
+               "  Foobar(int t, int p) {\n"
+               "    int r = t * p;\n"
+               "    return r;\n"
+               "  }\n"
+               "}\n",
+               BreakAfterReturnTypeStyle);
+}
 } // namespace
 } // namespace format
 } // namespace clang

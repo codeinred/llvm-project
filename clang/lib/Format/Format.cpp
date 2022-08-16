@@ -678,6 +678,7 @@ template <> struct MappingTraits<FormatStyle> {
                    Style.ConstructorInitializerIndentWidth);
     IO.mapOptional("ContinuationIndentWidth", Style.ContinuationIndentWidth);
     IO.mapOptional("Cpp11BracedListStyle", Style.Cpp11BracedListStyle);
+    IO.mapOptional("DefinitionBlockSpacing", Style.DefinitionBlockSpacing);
     IO.mapOptional("DeriveLineEnding", Style.DeriveLineEnding);
     IO.mapOptional("DerivePointerAlignment", Style.DerivePointerAlignment);
     IO.mapOptional("DisableFormat", Style.DisableFormat);
@@ -1167,6 +1168,7 @@ FormatStyle getLLVMStyle(FormatStyle::LanguageKind Language) {
   // Off by default Qualifier ordering
   LLVMStyle.QualifierAlignment = FormatStyle::QAS_Leave;
 
+  LLVMStyle.DefinitionBlockSpacing = 1;
   LLVMStyle.DeriveLineEnding = true;
   LLVMStyle.DerivePointerAlignment = false;
   LLVMStyle.EmptyLineAfterAccessModifier = FormatStyle::ELAAMS_Never;
